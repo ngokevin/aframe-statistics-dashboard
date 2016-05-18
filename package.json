@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "build": "browserify index.js -o build.js",
+    "dev": "budo index.js:build.js --port 8005 --live --open",
+    "preghpages": "npm run build",
+    "ghpages": "npm run preghpages && ghpages -p gh-pages"
+  },
+  "author": "Kevin Ngo <me@ngokevin.com>",
+  "dependencies": {
+    "aframe": "^0.2.0",
+    "aframe-entity-generator-component": "^0.1.0",
+    "aframe-event-set-component": "^0.1.2",
+    "aframe-layout-component": "^1.2.0",
+    "aframe-template-component": "^1.4.0",
+    "aframe-text-component": "^0.3.0",
+    "browserify": "^13.0.1",
+    "budo": "^8.2.2",
+    "superagent": "^1.8.3",
+    "superagent-promise-plugin": "^3.2.0",
+    "urlgray": "^0.2.3"
+  },
+  "devDependencies": {
+    "ghpages": "0.0.8"
+  }
+}
