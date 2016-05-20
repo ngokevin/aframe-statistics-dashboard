@@ -34,7 +34,7 @@ AFRAME.registerComponent('github-stargazers-api', {
         // Fetch every page of data.
         var rawData = {};
         var promises = [];
-        for (var i = 0; i < parseInt(numPages); i++) {
+        for (var i = 1; i <= parseInt(numPages); i++) {
           var pageDataReq = req
             .get(url.q('page', i))
             .use(superagentPromisePlugin)
