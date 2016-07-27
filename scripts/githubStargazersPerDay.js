@@ -14,7 +14,7 @@ var Url = require('urlgray');
 superagentPromisePlugin.Promise = Promise;
 
 var url = Url('https://api.github.com/repos/aframevr/aframe/stargazers').q({
-  access_token: 'c6f364dd13adb3b9606fabc1c425fc632a9da642',
+  access_token: '',
   per_page: 100
 });
 
