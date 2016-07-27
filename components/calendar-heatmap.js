@@ -82,7 +82,7 @@ AFRAME.registerComponent('calendar-heatmap', {
         return {
           primitive: 'box',
           depth: data.size,
-          height: json[dateStr] ? json[dateStr] * data.scaleY : .01,
+          height: json[dateStr] ? json[dateStr] * data.scaleY : .005,
           width: data.size
         };
       })
@@ -90,6 +90,7 @@ AFRAME.registerComponent('calendar-heatmap', {
         var year = new Date(dateStr).getFullYear();
         return {
           color: json[dateStr] ? colorRangers[year](json[dateStr]) : 'black',
+          opacity: json[dateStr] ? 1 : 0.25,
           metalness: 0.3,
           roughness: 0
         };
