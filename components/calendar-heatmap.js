@@ -1,13 +1,14 @@
 var d3 = require('d3');
+window.d3 = d3;
 
 var DATE_FORMAT = d3.timeFormat('%Y-%m-%d');
 
 AFRAME.registerComponent('calendar-heatmap', {
   schema: {
-    color: {default: '#BA6C65'},
-    colorAlt: {default: '#F2BE8D'},
+    colors: {type: 'array', default: ['#F7F6DE', '#EFD510', '#FA7E0A', '#8F0E0E', '#530C0C']},
     json: {default: ''},
     dayMargin: {default: 0.05},
+    monthMargin: {default: .09},
     scaleY: {default: 0.02},
     size: {default: 0.03},
     yearMargin: {default: 0.75}
@@ -48,6 +49,17 @@ AFRAME.registerComponent('calendar-heatmap', {
         color: 'brown'
       });
 
+    var colorRangers = {};
+    [2015, 2016].forEach(function (year) {
+      var yearValues = Object.keys(json).filter(function (dateStr) {
+        return dateStr.startsWith(year.toString());
+      }).map(function (dateStr) {
+        return json[dateStr];
+      });
+      var maxForYear = Math.max.apply(null, yearValues);
+      colorRangers[year] = d3.scaleQuantile().domain([0, maxForYear]).range(data.colors);
+    });
+
     var bars = year.selectAll('.day')
       .data(function (year) {
         return d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
@@ -59,24 +71,25 @@ AFRAME.registerComponent('calendar-heatmap', {
         date = new Date(dateStr);
         var dayOfWeek = date.getDay();
         var weekOfYear = parseInt(d3.timeFormat('%W')(date));
+        var month = date.getMonth();
         return {
-          x: weekOfYear * (data.size + data.dayMargin),
+          x: weekOfYear * (data.size + data.dayMargin) + (month * data.monthMargin),
           y: json[dateStr] ? (json[dateStr] * data.scaleY / 2) : 0,
           z: dayOfWeek * (data.size + data.dayMargin)
         };
       })
-      .attr('geometry', function (date) {
+      .attr('geometry', function (dateStr) {
         return {
           primitive: 'box',
           depth: data.size,
-          height: json[date] ? json[date] * data.scaleY : .01,
+          height: json[dateStr] ? json[dateStr] * data.scaleY : .01,
           width: data.size
         };
       })
-      .attr('material', function (date) {
-        var color = new Date(date).getMonth() % 2 === 0 ? data.color : data.colorAlt;
+      .attr('material', function (dateStr) {
+        var year = new Date(dateStr).getFullYear();
         return {
-          color: json[date] ? color : 'black',
+          color: json[dateStr] ? colorRangers[year](json[dateStr]) : 'black',
           metalness: 0.3,
           roughness: 0
         };
