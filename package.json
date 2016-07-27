@@ -7,14 +7,10 @@
   },
   "author": "Kevin Ngo <me@ngokevin.com>",
   "dependencies": {
-    "aframe": "^0.2.0",
-    "aframe-entity-generator-component": "^0.1.0",
-    "aframe-event-set-component": "^0.1.2",
-    "aframe-layout-component": "^1.2.0",
-    "aframe-template-component": "^1.4.0",
-    "aframe-text-component": "^0.3.0",
+    "aframe-animation-component": "^0.3.2",
     "browserify": "^13.0.1",
     "budo": "^8.2.2",
+    "d3": "^4.1.1",
     "superagent": "^1.8.3",
     "superagent-promise-plugin": "^3.2.0",
     "urlgray": "^0.2.3"
